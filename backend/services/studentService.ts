@@ -1,6 +1,6 @@
-import type { CreateStudentRequest, UpdateStudentRequest } from "../types"
-import { getStudentsRepository, getStudentByIdRepository, createStudentRepository, updateStudentRepository, deleteStudentRepository } from "../repository/studentRepository"
-import type { IStudent } from "../models/Student"
+import type { CreateStudentRequest, UpdateStudentRequest } from "../types.ts"
+import { getStudentsRepository, getStudentByIdRepository, createStudentRepository, updateStudentRepository, deleteStudentRepository } from "../repository/studentRepository.ts"
+import type { IStudent } from "../models/Student.ts"
 
 export async function getStudentsService(): Promise<IStudent[]> {
   return getStudentsRepository()
@@ -21,3 +21,4 @@ export async function updateStudentService(id: string, studentData: UpdateStuden
 export async function deleteStudentService(id: string): Promise<boolean> {
   return deleteStudentRepository(id)
 } 
+

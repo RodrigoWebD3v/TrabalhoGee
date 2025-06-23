@@ -1,4 +1,4 @@
-import type { CreateUserRequest, UpdateUserRequest } from "../types"
+import type { CreateUserRequest, UpdateUserRequest } from "../types.ts"
 import {
   listAllUsersRepository,
   getUserDetailsRepository,
@@ -6,8 +6,8 @@ import {
   updateUserDetailsRepository,
   removeUserRepository,
   findUserByUsernameRepository,
-} from "../repository/userRepository"
-import type { IUser } from "../models/User"
+} from "../repository/userRepository.ts"
+import type { IUser } from "../models/User.ts"
 
 export async function listAllUsersService(): Promise<IUser[]> {
   return listAllUsersRepository()
@@ -36,3 +36,4 @@ export async function authenticateUserCredentialsService(username: string, passw
   if (!isMatch) return null
   return getUserDetailsRepository(String(user._id))
 } 
+

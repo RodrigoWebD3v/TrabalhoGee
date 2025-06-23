@@ -1,6 +1,6 @@
-import User, { IUser } from "../models/User"
-import connectDB from "../mongodb"
-import type { CreateUserRequest, UpdateUserRequest } from "../types"
+import User, { IUser } from "../models/User.ts"
+import connectDB from "../mongodb.ts"
+import type { CreateUserRequest, UpdateUserRequest } from "../types.ts"
 
 export async function listAllUsersRepository(): Promise<IUser[]> {
   await connectDB()
@@ -33,3 +33,5 @@ export async function findUserByUsernameRepository(username: string): Promise<IU
   await connectDB()
   return User.findOne({ user: username }).select("+pwd")
 } 
+
+

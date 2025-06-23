@@ -5,7 +5,7 @@ import {
   createProfessionalService,
   updateProfessionalService,
   deleteProfessionalService
-} from '../services/professionalService'
+} from '../services/professionalService.ts'
 
 const router = Router()
 

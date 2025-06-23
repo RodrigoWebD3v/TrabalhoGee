@@ -1,6 +1,6 @@
-import Professional, { IProfessional } from "../models/Professional"
-import connectDB from "../mongodb"
-import type { CreateProfessionalRequest, UpdateProfessionalRequest } from "../types"
+import Professional, { IProfessional } from "../models/Professional.ts"
+import connectDB from "../mongodb.ts"
+import type { CreateProfessionalRequest, UpdateProfessionalRequest } from "../types.ts"
 
 export async function getProfessionalsRepository(): Promise<IProfessional[]> {
   await connectDB()

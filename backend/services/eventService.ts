@@ -1,6 +1,6 @@
-import type { CreateEventRequest, UpdateEventRequest } from "../types"
-import { getEventsRepository, getEventByIdRepository, createEventRepository, updateEventRepository, deleteEventRepository } from "../repository/eventRepository"
-import type { IEvent } from "../models/Event"
+import type { CreateEventRequest, UpdateEventRequest } from "../types.ts"
+import { getEventsRepository, getEventByIdRepository, createEventRepository, updateEventRepository, deleteEventRepository } from "../repository/eventRepository.ts"
+import type { IEvent } from "../models/Event.ts"
 
 export async function getEventsService(): Promise<IEvent[]> {
   return getEventsRepository()
@@ -21,3 +21,4 @@ export async function updateEventService(id: string, eventData: UpdateEventReque
 export async function deleteEventService(id: string): Promise<boolean> {
   return deleteEventRepository(id)
 } 
+

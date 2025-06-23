@@ -1,6 +1,6 @@
-import type { CreateTeacherRequest, UpdateTeacherRequest } from "../types"
-import { getTeachersRepository, getTeacherByIdRepository, createTeacherRepository, updateTeacherRepository, deleteTeacherRepository } from "../repository/teacherRepository"
-import type { ITeacher } from "../models/Teacher"
+import type { CreateTeacherRequest, UpdateTeacherRequest } from "../types.ts"
+import { getTeachersRepository, getTeacherByIdRepository, createTeacherRepository, updateTeacherRepository, deleteTeacherRepository } from "../repository/teacherRepository.ts"
+import type { ITeacher } from "../models/Teacher.ts"
 
 export async function getTeachersService(): Promise<ITeacher[]> {
   return getTeachersRepository()
@@ -21,3 +21,4 @@ export async function updateTeacherService(id: string, teacherData: UpdateTeache
 export async function deleteTeacherService(id: string): Promise<boolean> {
   return deleteTeacherRepository(id)
 } 
+

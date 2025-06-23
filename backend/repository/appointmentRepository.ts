@@ -1,6 +1,6 @@
-import Appointment, { IAppointment } from "../models/Appointment"
-import connectDB from "../mongodb"
-import type { CreateAppointmentRequest, UpdateAppointmentRequest } from "../types"
+import Appointment, { IAppointment } from "../models/Appointment.ts"
+import connectDB from "../mongodb.ts"
+import type { CreateAppointmentRequest, UpdateAppointmentRequest } from "../types.ts"
 
 export async function getAppointmentsRepository(): Promise<IAppointment[]> {
   await connectDB()
