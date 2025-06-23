@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import routes from './routes/index'
+import routes from './routes/index.ts'
 
 // Carregar variáveis de ambiente
 dotenv.config()
@@ -19,3 +19,4 @@ app.use('/api', routes)
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`)
 })
+

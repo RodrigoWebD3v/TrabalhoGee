@@ -1,6 +1,6 @@
-import Event, { IEvent } from "../models/Event"
-import connectDB from "../mongodb"
-import type { CreateEventRequest, UpdateEventRequest } from "../types"
+import Event, { IEvent } from "../models/Event.ts"
+import connectDB from "../mongodb.ts"
+import type { CreateEventRequest, UpdateEventRequest } from "../types.ts"
 
 export async function getEventsRepository(): Promise<IEvent[]> {
   await connectDB()

@@ -1,6 +1,6 @@
-import Teacher, { ITeacher } from "../models/Teacher"
-import connectDB from "../mongodb"
-import type { CreateTeacherRequest, UpdateTeacherRequest } from "../types"
+import Teacher, { ITeacher } from "../models/Teacher.ts"
+import connectDB from "../mongodb.ts"
+import type { CreateTeacherRequest, UpdateTeacherRequest } from "../types.ts"
 
 export async function getTeachersRepository(): Promise<ITeacher[]> {
   await connectDB()

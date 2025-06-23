@@ -1,6 +1,6 @@
-import type { CreateProfessionalRequest, UpdateProfessionalRequest } from "../types"
-import { getProfessionalsRepository, getProfessionalByIdRepository, createProfessionalRepository, updateProfessionalRepository, deleteProfessionalRepository } from "../repository/professionalRepository"
-import type { IProfessional } from "../models/Professional"
+import type { CreateProfessionalRequest, UpdateProfessionalRequest } from "../types.ts"
+import { getProfessionalsRepository, getProfessionalByIdRepository, createProfessionalRepository, updateProfessionalRepository, deleteProfessionalRepository } from "../repository/professionalRepository.ts"
+import type { IProfessional } from "../models/Professional.ts"
 
 export async function getProfessionalsService(): Promise<IProfessional[]> {
   return getProfessionalsRepository()
@@ -21,3 +21,4 @@ export async function updateProfessionalService(id: string, professionalData: Up
 export async function deleteProfessionalService(id: string): Promise<boolean> {
   return deleteProfessionalRepository(id)
 } 
+
