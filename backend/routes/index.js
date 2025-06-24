@@ -4,14 +4,18 @@ import professionalRoutes from './professional.js'
 import studentRoutes from './student.js'
 import teacherRoutes from './teacher.js'
 import eventRoutes from './event.js'
+import authRoutes from './authRoutes.js'
+
 
 const router = Router()
 
+router.use('/auth', authRoutes)
 router.use('/users', userRoutes)
 router.use('/professionals', professionalRoutes)
 router.use('/students', studentRoutes)
 router.use('/teachers', teacherRoutes)
 router.use('/events', eventRoutes)
+
 
 // Rota de teste
 router.get('/ping', (req, res) => {
