@@ -16,7 +16,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const teacher = await getTeacherByIdService(req.params.id)
-  if (!teacher) return res.status(404).json({ error: 'Professor não encontrado' })
+  if (!teacher) {
+    res.status(404).json({ error: 'Professor não encontrado' })
+    return
+  }
   res.json(teacher)
 })
 
@@ -27,13 +30,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const teacher = await updateTeacherService(req.params.id, req.body)
-  if (!teacher) return res.status(404).json({ error: 'Professor não encontrado' })
+  if (!teacher) {
+    res.status(404).json({ error: 'Professor não encontrado' })
+    return
+  }
   res.json(teacher)
 })
 
 router.delete('/:id', async (req, res) => {
   const success = await deleteTeacherService(req.params.id)
-  if (!success) return res.status(404).json({ error: 'Professor não encontrado' })
+  if (!success) {
+    res.status(404).json({ error: 'Professor não encontrado' })
+    return
+  }
   res.json({ success })
 })
 

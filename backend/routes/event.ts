@@ -16,7 +16,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const event = await getEventByIdService(req.params.id)
-  if (!event) return res.status(404).json({ error: 'Evento não encontrado' })
+  if (!event) {
+    res.status(404).json({ error: 'Evento não encontrado' })
+    return
+  }
   res.json(event)
 })
 
@@ -27,13 +30,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const event = await updateEventService(req.params.id, req.body)
-  if (!event) return res.status(404).json({ error: 'Evento não encontrado' })
+  if (!event) {
+    res.status(404).json({ error: 'Evento não encontrado' })
+    return
+  }
   res.json(event)
 })
 
 router.delete('/:id', async (req, res) => {
   const success = await deleteEventService(req.params.id)
-  if (!success) return res.status(404).json({ error: 'Evento não encontrado' })
+  if (!success) {
+    res.status(404).json({ error: 'Evento não encontrado' })
+    return
+  }
   res.json({ success })
 })
 

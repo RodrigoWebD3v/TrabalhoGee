@@ -16,7 +16,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const user = await getUserDetailsService(req.params.id)
-  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' })
+  if (!user) {
+    res.status(404).json({ error: 'Usuário não encontrado' })
+    return
+  }
   res.json(user)
 })
 
@@ -27,13 +30,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const user = await updateUserDetailsService(req.params.id, req.body)
-  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' })
+  if (!user) {
+    res.status(404).json({ error: 'Usuário não encontrado' })
+    return
+  }
   res.json(user)
 })
 
 router.delete('/:id', async (req, res) => {
   const success = await removeUserService(req.params.id)
-  if (!success) return res.status(404).json({ error: 'Usuário não encontrado' })
+  if (!success) {
+    res.status(404).json({ error: 'Usuário não encontrado' })
+    return
+  }
   res.json({ success })
 })
 

@@ -16,7 +16,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const professional = await getProfessionalByIdService(req.params.id)
-  if (!professional) return res.status(404).json({ error: 'Profissional não encontrado' })
+  if (!professional) {
+    res.status(404).json({ error: 'Profissional não encontrado' })
+    return
+  }
   res.json(professional)
 })
 
@@ -27,13 +30,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const professional = await updateProfessionalService(req.params.id, req.body)
-  if (!professional) return res.status(404).json({ error: 'Profissional não encontrado' })
+  if (!professional) {
+    res.status(404).json({ error: 'Profissional não encontrado' })
+    return
+  }
   res.json(professional)
 })
 
 router.delete('/:id', async (req, res) => {
   const success = await deleteProfessionalService(req.params.id)
-  if (!success) return res.status(404).json({ error: 'Profissional não encontrado' })
+  if (!success) {
+    res.status(404).json({ error: 'Profissional não encontrado' })
+    return
+  }
   res.json({ success })
 })
 
