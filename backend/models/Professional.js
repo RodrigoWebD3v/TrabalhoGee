@@ -1,16 +1,6 @@
-import mongoose, { type Document, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
-export interface IProfessional extends Document {
-  name: string
-  specialty: string
-  contact: string
-  phone_number: string
-  status: "on" | "off"
-  createdAt: Date
-  updatedAt: Date
-}
-
-const ProfessionalSchema = new Schema<IProfessional>(
+const ProfessionalSchema = new Schema(
   {
     name: {
       type: String,
@@ -63,4 +53,4 @@ const ProfessionalSchema = new Schema<IProfessional>(
 // Index for search functionality
 ProfessionalSchema.index({ name: "text", specialty: "text", contact: "text" })
 
-export default mongoose.models.Professional || mongoose.model<IProfessional>("Professional", ProfessionalSchema)
+export default mongoose.models.Professional || mongoose.model("Professional", ProfessionalSchema) 

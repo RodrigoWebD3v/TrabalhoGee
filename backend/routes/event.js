@@ -5,7 +5,7 @@ import {
   createEventService,
   updateEventService,
   deleteEventService
-} from '../services/eventService.ts'
+} from '../services/eventService.js'
 
 const router = Router()
 

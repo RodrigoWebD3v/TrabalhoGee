@@ -1,19 +1,12 @@
 import mongoose from "mongoose"
 
-declare global {
-  // eslint-disable-next-line no-var
-  var mongoose: { conn: typeof import("mongoose") | null; promise: Promise<typeof import("mongoose")> | null } | undefined
-}
-
-const MONGODB_URI = process.env.MONGODB_URI!
+const MONGODB_URI = process.env.MONGODB_URI
 
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable inside .env.local")
 }
 
-
-let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } =
-  global.mongoose || { conn: null, promise: null }
+let cached = global.mongoose || { conn: null, promise: null }
 global.mongoose = cached
 
 async function connectDB() {
@@ -41,4 +34,4 @@ async function connectDB() {
   return cached.conn
 }
 
-export default connectDB
+export default connectDB 

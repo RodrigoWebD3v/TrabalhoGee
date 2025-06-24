@@ -5,7 +5,7 @@ import {
   registerUserService,
   updateUserDetailsService,
   removeUserService
-} from '../services/userService.ts'
+} from '../services/userService.js'
 
 const router = Router()
 

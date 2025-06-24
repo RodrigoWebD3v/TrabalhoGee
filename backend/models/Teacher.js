@@ -1,16 +1,6 @@
-import mongoose, { type Document, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
-export interface ITeacher extends Document {
-  name: string
-  school_disciplines: string
-  contact: string
-  phone_number: string
-  status: "on" | "off"
-  createdAt: Date
-  updatedAt: Date
-}
-
-const TeacherSchema = new Schema<ITeacher>(
+const TeacherSchema = new Schema(
   {
     name: {
       type: String,
@@ -52,4 +42,4 @@ const TeacherSchema = new Schema<ITeacher>(
 // Index for search functionality
 TeacherSchema.index({ name: "text", school_disciplines: "text", contact: "text" })
 
-export default mongoose.models.Teacher || mongoose.model<ITeacher>("Teacher", TeacherSchema)
+export default mongoose.models.Teacher || mongoose.model("Teacher", TeacherSchema) 

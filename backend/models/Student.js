@@ -1,17 +1,6 @@
-import mongoose, { type Document, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
-export interface IStudent extends Document {
-  name: string
-  age: string
-  parents: string
-  phone_number: string
-  special_needs: string
-  status: "on" | "off"
-  createdAt: Date
-  updatedAt: Date
-}
-
-const StudentSchema = new Schema<IStudent>(
+const StudentSchema = new Schema(
   {
     name: {
       type: String,
@@ -23,7 +12,7 @@ const StudentSchema = new Schema<IStudent>(
       type: String,
       required: [true, "Age is required"],
       validate: {
-        validator: (v: string) => {
+        validator: (v) => {
           const age = Number.parseInt(v)
           return !isNaN(age) && age > 0 && age <= 100
         },
@@ -63,4 +52,4 @@ const StudentSchema = new Schema<IStudent>(
 // Index for search functionality
 StudentSchema.index({ name: "text", parents: "text", special_needs: "text" })
 
-export default mongoose.models.Student || mongoose.model<IStudent>("Student", StudentSchema)
+export default mongoose.models.Student || mongoose.model("Student", StudentSchema) 

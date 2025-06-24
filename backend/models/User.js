@@ -1,19 +1,7 @@
-import mongoose, { type Document, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 import bcrypt from "bcryptjs"
 
-export interface IUser extends Document {
-  name: string
-  email: string
-  user: string
-  pwd: string
-  level: "admin" | "user"
-  status: "on" | "off"
-  createdAt: Date
-  updatedAt: Date
-  comparePassword(candidatePassword: string): Promise<boolean>
-}
-
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema(
   {
     name: {
       type: String,
@@ -68,13 +56,13 @@ UserSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(12)
     this.pwd = await bcrypt.hash(this.pwd, salt)
     next()
-  } catch (error: any) {
+  } catch (error) {
     next(error)
   }
 })
 
 // Compare password method
-UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+UserSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.pwd)
 }
 
@@ -85,4 +73,4 @@ UserSchema.methods.toJSON = function () {
   return userObject
 }
 
-export default mongoose.models.User || mongoose.model<IUser>("User", UserSchema)
+export default mongoose.models.User || mongoose.model("User", UserSchema) 

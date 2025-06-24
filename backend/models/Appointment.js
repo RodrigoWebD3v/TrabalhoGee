@@ -1,16 +1,6 @@
-import mongoose, { type Document, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
-export interface IAppointment extends Document {
-  specialty: string
-  comments: string
-  date: Date
-  student: string
-  professional: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-const AppointmentSchema = new Schema<IAppointment>(
+const AppointmentSchema = new Schema(
   {
     specialty: {
       type: String,
@@ -38,7 +28,7 @@ const AppointmentSchema = new Schema<IAppointment>(
       type: Date,
       required: [true, "Appointment date is required"],
       validate: {
-        validator: (v: Date) => v > new Date(),
+        validator: (v) => v > new Date(),
         message: "Appointment date must be in the future",
       },
     },
@@ -62,4 +52,4 @@ const AppointmentSchema = new Schema<IAppointment>(
 AppointmentSchema.index({ student: "text", professional: "text", specialty: "text" })
 AppointmentSchema.index({ date: 1 })
 
-export default mongoose.models.Appointment || mongoose.model<IAppointment>("Appointment", AppointmentSchema)
+export default mongoose.models.Appointment || mongoose.model("Appointment", AppointmentSchema) 

@@ -5,7 +5,7 @@ import {
   createStudentService,
   updateStudentService,
   deleteStudentService
-} from '../services/studentService.ts'
+} from '../services/studentService.js'
 
 const router = Router()
 
