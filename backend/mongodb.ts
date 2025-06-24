@@ -1,5 +1,10 @@
 import mongoose from "mongoose"
 
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: { conn: typeof import("mongoose") | null; promise: Promise<typeof import("mongoose")> | null } | undefined
+}
+
 const MONGODB_URI = process.env.MONGODB_URI!
 
 if (!MONGODB_URI) {
@@ -7,11 +12,9 @@ if (!MONGODB_URI) {
 }
 
 
-let cached = global.mongoose
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
-}
+let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } =
+  global.mongoose || { conn: null, promise: null }
+global.mongoose = cached
 
 async function connectDB() {
   if (cached.conn) {
