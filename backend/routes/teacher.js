@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import {
-  getTeachersService,
-  getTeacherByIdService,
+  listAllTeachersService,
   createTeacherService,
   updateTeacherService,
   deleteTeacherService
@@ -10,40 +9,57 @@ import {
 const router = Router()
 
 router.get('/', async (req, res) => {
-  const teachers = await getTeachersService()
-  res.json(teachers)
+  try {
+    const teachers = await listAllTeachersService()
+    res.json({ success: true, data: teachers })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao buscar professores' })
+  }
 })
 
 router.get('/:id', async (req, res) => {
-  const teacher = await getTeacherByIdService(req.params.id)
-  if (!teacher) {
-    res.status(404).json({ error: 'Professor não encontrado' })
-    return
+  try {
+    const teacher = await getTeacherService(req.params.id)
+    if (!teacher) {
+      return res.status(404).json({ success: false, error: 'Professor não encontrado' })
+    }
+    res.json({ success: true, data: teacher })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao buscar professor' })
   }
-  res.json(teacher)
 })
 
 router.post('/', async (req, res) => {
-  const teacher = await createTeacherService(req.body)
-  res.status(201).json(teacher)
+  try {
+    const teacher = await createTeacherService(req.body)
+    res.status(201).json({ success: true, data: teacher, message: 'Professor criado com sucesso' })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao criar professor' })
+  }
 })
 
 router.put('/:id', async (req, res) => {
-  const teacher = await updateTeacherService(req.params.id, req.body)
-  if (!teacher) {
-    res.status(404).json({ error: 'Professor não encontrado' })
-    return
+  try {
+    const teacher = await updateTeacherService(req.params.id, req.body)
+    if (!teacher) {
+      return res.status(404).json({ success: false, error: 'Professor não encontrado' })
+    }
+    res.json({ success: true, data: teacher, message: 'Professor atualizado com sucesso' })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao atualizar professor' })
   }
-  res.json(teacher)
 })
 
 router.delete('/:id', async (req, res) => {
-  const success = await deleteTeacherService(req.params.id)
-  if (!success) {
-    res.status(404).json({ error: 'Professor não encontrado' })
-    return
+  try {
+    const success = await deleteTeacherService(req.params.id)
+    if (!success) {
+      return res.status(404).json({ success: false, error: 'Professor não encontrado' })
+    }
+    res.json({ success: true, message: 'Professor removido com sucesso' })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao remover professor' })
   }
-  res.json({ success })
 })
 
 export default router 

@@ -18,4 +18,8 @@ export async function updateEventService(id, eventData) {
 
 export async function deleteEventService(id) {
   return deleteEventRepository(id)
+}
+
+export async function listAllEventsService() {
+  return getEventsRepository()
 } 

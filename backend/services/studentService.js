@@ -18,4 +18,8 @@ export async function updateStudentService(id, studentData) {
 
 export async function deleteStudentService(id) {
   return deleteStudentRepository(id)
+}
+
+export async function listAllStudentsService() {
+  return getStudentsRepository()
 } 

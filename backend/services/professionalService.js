@@ -18,4 +18,12 @@ export async function updateProfessionalService(id, professionalData) {
 
 export async function deleteProfessionalService(id) {
   return deleteProfessionalRepository(id)
+}
+
+export async function getProfessionalDetailsService(id) {
+  return getProfessionalByIdRepository(id)
+}
+
+export async function listAllProfessionalsService() {
+  return getProfessionalsRepository()
 } 

@@ -1,9 +1,11 @@
 import User from "../models/User.js"
 import connectDB from "../mongodb.js"
+import bcrypt from 'bcrypt'
 
 export async function listAllUsersRepository() {
   await connectDB()
-  return User.find({}).sort({ createdAt: -1 })
+  const users = await User.find()
+  return users
 }
 
 export async function getUserDetailsRepository(id) {
@@ -31,4 +33,19 @@ export async function removeUserRepository(id) {
 export async function findUserByUsernameRepository(username) {
   await connectDB()
   return User.findOne({ user: username }).select("+pwd")
+}
+
+export async function comparePassword(plainPassword, hashedPassword) {
+  console.log(plainPassword, hashedPassword)
+  return bcrypt.compare(plainPassword, hashedPassword)
+}
+
+export default {
+  listAllUsersRepository,
+  getUserDetailsRepository,
+  registerUserRepository,
+  updateUserDetailsRepository,
+  removeUserRepository,
+  findUserByUsernameRepository,
+  comparePassword,
 } 

@@ -11,42 +11,58 @@ import {
 const router = Router()
 
 router.get('/', async (req, res) => {
-  const users = await listAllUsersService()
-  res.json(users)
+  try {
+    const users = await listAllUsersService()
+    res.json({ success: true, data: users })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao buscar usuários' })
+  }
 })
 
 router.get('/:id', async (req, res) => {
-  const user = await getUserDetailsService(req.params.id)
-  if (!user) {
-    res.status(404).json({ error: 'Usuário não encontrado' })
-    return
+  try {
+    const user = await getUserDetailsService(req.params.id)
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'Usuário não encontrado' })
+    }
+    res.json({ success: true, data: user })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao buscar usuário' })
   }
-  res.json(user)
 })
 
 router.post('/', async (req, res) => {
-  console.log("Chegou aqui")
-  const user = await registerUserService(req.body)
-  res.status(201).json(user)
+  try {
+    console.log("Chamou criar usuario")
+    const user = await registerUserService(req.body)
+    res.status(201).json({ success: true, data: user, message: 'Usuário criado com sucesso' })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao criar usuário' })
+  }
 })
 
 router.put('/:id', async (req, res) => {
-  const user = await updateUserDetailsService(req.params.id, req.body)
-  if (!user) {
-    res.status(404).json({ error: 'Usuário não encontrado' })
-    return
+  try {
+    const user = await updateUserDetailsService(req.params.id, req.body)
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'Usuário não encontrado' })
+    }
+    res.json({ success: true, data: user, message: 'Usuário atualizado com sucesso' })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao atualizar usuário' })
   }
-  res.json(user)
 })
 
 router.delete('/:id', async (req, res) => {
-  const success = await removeUserService(req.params.id)
-  if (!success) {
-    res.status(404).json({ error: 'Usuário não encontrado' })
-    return
+  try {
+    const success = await removeUserService(req.params.id)
+    if (!success) {
+      return res.status(404).json({ success: false, error: 'Usuário não encontrado' })
+    }
+    res.json({ success: true, message: 'Usuário removido com sucesso' })
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao remover usuário' })
   }
-  res.json({ success })
 })
-
 
 export default router

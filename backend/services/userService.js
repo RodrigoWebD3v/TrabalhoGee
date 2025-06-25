@@ -7,6 +7,7 @@ import {
 } from "../repository/userRepository.js"
  
 export async function listAllUsersService() {
+  console.log("Chegou aqui listAllUsersService")
   return listAllUsersRepository()
 }
 

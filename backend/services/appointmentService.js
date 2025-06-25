@@ -18,4 +18,8 @@ export async function updateAppointmentService(id, appointmentData) {
 
 export async function deleteAppointmentService(id) {
   return deleteAppointmentRepository(id)
+}
+
+export async function listAllAppointmentsService() {
+  return getAppointmentsRepository()
 } 

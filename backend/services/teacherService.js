@@ -18,4 +18,8 @@ export async function updateTeacherService(id, teacherData) {
 
 export async function deleteTeacherService(id) {
   return deleteTeacherRepository(id)
+}
+
+export async function listAllTeachersService() {
+  return getTeachersRepository()
 } 
