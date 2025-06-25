@@ -1,4 +1,5 @@
 import { Router } from 'express'
+
 import {
   listAllUsersService,
   getUserDetailsService,
@@ -24,6 +25,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+  console.log("Chegou aqui")
   const user = await registerUserService(req.body)
   res.status(201).json(user)
 })
@@ -47,4 +49,4 @@ router.delete('/:id', async (req, res) => {
 })
 
 
-export default router 
+export default router

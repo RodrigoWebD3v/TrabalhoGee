@@ -15,6 +15,7 @@ export async function getUserDetailsService(id) {
 }
 
 export async function registerUserService(userData) {
+  console.log("Chegou aqui registerUserService")
   return registerUserRepository(userData)
 }
 
