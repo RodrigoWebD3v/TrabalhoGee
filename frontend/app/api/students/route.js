@@ -1,9 +1,12 @@
-import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/lib/api-utils"
-import { getStudentsService, createStudentService } from "@/lib/services/studentService"
+import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/utils/api-utils"
 
 export async function GET(request) {
   try {
-    const students = await getStudentsService()
+    // Mock: retorna lista fake de alunos
+    const students = [
+      { id: 1, name: "Aluno 1", age: 10 },
+      { id: 2, name: "Aluno 2", age: 12 },
+    ]
     return createApiResponse(true, students, "Students retrieved successfully")
   } catch (error) {
     return handleApiError(error)
@@ -29,7 +32,8 @@ export async function POST(request) {
       return createApiResponse(false, null, undefined, "Age must be a valid number between 1 and 100", 400)
     }
 
-    const newStudent = await createStudentService(body)
+    // Mock: cria aluno fake
+    const newStudent = { id: Date.now(), ...body }
     return createApiResponse(true, newStudent, "Student created successfully", undefined, 201)
   } catch (error) {
     return handleApiError(error)

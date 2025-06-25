@@ -13,7 +13,10 @@ import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
 
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [teachers, setTeachers] = useState([])
+  const [teachers, setTeachers] = useState([
+    { id: 1, name: "Ana Paula", school_disciplines: "Matemática", contact: "ana@email.com", phone_number: "11999999999", status: "on" },
+    { id: 2, name: "Bruno Costa", school_disciplines: "Português", contact: "bruno@email.com", phone_number: "11888888888", status: "off" },
+  ])
   const [selectedTeacher, setSelectedTeacher] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -24,7 +27,7 @@ export default function TeachersPage() {
     (teacher) =>
       teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       teacher.school_disciplines.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.contact.toLowerCase().includes(searchTerm.toLowerCase()),
+      teacher.contact.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleCreate = (teacherData) => {
@@ -68,7 +71,7 @@ export default function TeachersPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen h-full flex flex-col flex-1">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-[#2b2c34]">Professores</h1>

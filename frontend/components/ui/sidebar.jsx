@@ -160,4 +160,97 @@ const SidebarTrigger = React.forwardRef(
 )
 SidebarTrigger.displayName = "SidebarTrigger"
 
-export { SidebarProvider, SidebarTrigger, useSidebar } 
+function Sidebar({ children, className, ...props }) {
+  return (
+    <aside className={cn("bg-white flex flex-col", className)} {...props}>
+      {children}
+    </aside>
+  )
+}
+
+function SidebarContent({ children, className, ...props }) {
+  return (
+    <div className={cn("flex-1 flex flex-col", className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+function SidebarGroup({ children, className, ...props }) {
+  return (
+    <div className={cn("mb-4", className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+function SidebarGroupContent({ children, className, ...props }) {
+  return (
+    <div className={cn("pl-2", className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+function SidebarGroupLabel({ children, className, ...props }) {
+  return (
+    <div className={cn("text-xs font-semibold text-gray-500 uppercase mb-2 pl-2", className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+function SidebarMenu({ children, className, ...props }) {
+  return (
+    <ul className={cn("space-y-1", className)} {...props}>
+      {children}
+    </ul>
+  )
+}
+
+function SidebarMenuItem({ children, className, ...props }) {
+  return (
+    <li className={cn("", className)} {...props}>
+      {children}
+    </li>
+  )
+}
+
+function SidebarMenuButton({ children, isActive, asChild, className, ...props }) {
+  const Comp = asChild ? Slot : "button"
+  return (
+    <Comp
+      className={cn(
+        "flex items-center w-full px-3 py-2 rounded transition-colors hover:bg-blue-100 text-gray-700 gap-2",
+        isActive ? "bg-blue-100 font-semibold text-blue-700" : "",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Comp>
+  )
+}
+
+function SidebarHeader({ children, className, ...props }) {
+  return (
+    <div className={cn("border-b px-4 py-3", className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarHeader,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar
+} 

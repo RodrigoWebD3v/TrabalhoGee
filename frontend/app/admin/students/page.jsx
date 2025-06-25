@@ -13,7 +13,10 @@ import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
 
 export default function StudentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [students, setStudents] = useState([])
+  const [students, setStudents] = useState([
+    { id: 1, name: "Lucas Alves", parents: "José e Ana", special_needs: "TEA", phone_number: "11999999999", age: 10, status: "on" },
+    { id: 2, name: "Fernanda Dias", parents: "Carlos e Paula", special_needs: "TDAH", phone_number: "11888888888", age: 12, status: "off" },
+  ])
   const [selectedStudent, setSelectedStudent] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -24,7 +27,7 @@ export default function StudentsPage() {
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.parents.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.special_needs.toLowerCase().includes(searchTerm.toLowerCase()),
+      student.special_needs.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleCreate = (studentData) => {
@@ -68,7 +71,7 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen h-full flex flex-col flex-1">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-[#2b2c34]">Alunos</h1>

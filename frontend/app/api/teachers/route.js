@@ -1,9 +1,12 @@
-import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/lib/api-utils"
-import { getTeachersService, createTeacherService } from "@/lib/services/teacherService"
+import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/utils/api-utils"
 
 export async function GET(request) {
   try {
-    const teachers = await getTeachersService()
+    // Mock: retorna lista fake de professores
+    const teachers = [
+      { id: 1, name: "Professor 1", school_disciplines: ["Matemática"] },
+      { id: 2, name: "Professor 2", school_disciplines: ["Português"] },
+    ]
     return createApiResponse(true, teachers, "Teachers retrieved successfully")
   } catch (error) {
     return handleApiError(error)
@@ -23,8 +26,8 @@ export async function POST(request) {
       return createApiResponse(false, null, undefined, validationError, 400)
     }
 
-    // Validação de email pode ser feita no service se necessário
-    const newTeacher = await createTeacherService(body)
+    // Mock: cria professor fake
+    const newTeacher = { id: Date.now(), ...body }
     return createApiResponse(true, newTeacher, "Teacher created successfully", undefined, 201)
   } catch (error) {
     return handleApiError(error)

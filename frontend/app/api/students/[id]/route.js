@@ -1,5 +1,5 @@
 import { db } from "@/lib/database"
-import { createApiResponse, handleApiError, validateJsonBody } from "@/lib/api-utils"
+import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/utils/api-utils"
 
 export async function GET(request, { params }) {
   try {

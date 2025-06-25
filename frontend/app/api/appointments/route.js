@@ -1,5 +1,4 @@
-import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/lib/api-utils"
-import { getAppointmentsService, createAppointmentService } from "@/lib/services/appointmentService"
+import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/utils/api-utils"
 
 export async function GET() {
   const response = await fetch('http://localhost:3000/api/appointments');

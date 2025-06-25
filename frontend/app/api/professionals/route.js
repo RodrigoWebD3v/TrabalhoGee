@@ -1,9 +1,12 @@
-import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/lib/api-utils"
-import { getProfessionalsService, createProfessionalService } from "@/lib/services/professionalService"
+import { createApiResponse, handleApiError, validateJsonBody, validateRequiredFields } from "@/utils/api-utils"
 
 export async function GET(request) {
   try {
-    const professionals = await getProfessionalsService()
+    // Mock: retorna lista fake de profissionais
+    const professionals = [
+      { id: 1, name: "Profissional 1", specialty: "Psicólogo" },
+      { id: 2, name: "Profissional 2", specialty: "Fonoaudiólogo" },
+    ]
     return createApiResponse(true, professionals, "Professionals retrieved successfully")
   } catch (error) {
     return handleApiError(error)
@@ -23,8 +26,8 @@ export async function POST(request) {
       return createApiResponse(false, null, undefined, validationError, 400)
     }
 
-    // Validação de email pode ser feita no service se necessário
-    const newProfessional = await createProfessionalService(body)
+    // Mock: cria profissional fake
+    const newProfessional = { id: Date.now(), ...body }
     return createApiResponse(true, newProfessional, "Professional created successfully", undefined, 201)
   } catch (error) {
     return handleApiError(error)

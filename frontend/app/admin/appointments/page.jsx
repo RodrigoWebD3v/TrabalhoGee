@@ -13,7 +13,10 @@ import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
 
 export default function AppointmentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [appointments, setAppointments] = useState([])
+  const [appointments, setAppointments] = useState([
+    { id: 1, student: "Lucas Alves", professional: "Patrícia Gomes", specialty: "Psicóloga", date: new Date().toISOString(), status: "agendado" },
+    { id: 2, student: "Fernanda Dias", professional: "Rafael Torres", specialty: "Fonoaudiólogo", date: new Date(Date.now() + 86400000).toISOString(), status: "realizado" },
+  ])
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -24,7 +27,7 @@ export default function AppointmentsPage() {
     (appointment) =>
       appointment.student.toLowerCase().includes(searchTerm.toLowerCase()) ||
       appointment.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      appointment.professional.toLowerCase().includes(searchTerm.toLowerCase()),
+      appointment.professional.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleCreate = (appointmentData) => {
@@ -68,7 +71,7 @@ export default function AppointmentsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen h-full flex flex-col flex-1">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-[#2b2c34]">Agendamentos</h1>

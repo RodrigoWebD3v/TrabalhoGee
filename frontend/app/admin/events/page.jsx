@@ -13,7 +13,11 @@ import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
 
 export default function EventsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([
+    { id: 1, description: "Reunião pedagógica", comments: "Sala 1", date: new Date().toISOString(), status: "ativo" },
+    { id: 2, description: "Palestra inclusão", comments: "Auditório", date: new Date(Date.now() + 86400000).toISOString(), status: "ativo" },
+    { id: 3, description: "Atividade lúdica", comments: "Pátio", date: new Date(Date.now() + 2*86400000).toISOString(), status: "inativo" },
+  ])
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -23,7 +27,7 @@ export default function EventsPage() {
   const filteredEvents = events.filter(
     (event) =>
       event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      event.comments.toLowerCase().includes(searchTerm.toLowerCase()),
+      event.comments.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleCreate = (eventData) => {
@@ -67,7 +71,7 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen h-full flex flex-col flex-1">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-[#2b2c34]">Eventos</h1>

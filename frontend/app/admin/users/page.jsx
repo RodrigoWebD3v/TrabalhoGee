@@ -14,28 +14,23 @@ import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
 
 export default function UsersPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([
+    { id: 1, name: "João Silva", email: "joao@email.com", user: "joaos", level: "admin", status: "on" },
+    { id: 2, name: "Maria Souza", email: "maria@email.com", user: "marias", level: "user", status: "on" },
+    { id: 3, name: "Carlos Lima", email: "carlos@email.com", user: "carlim", level: "user", status: "off" },
+  ])
   const [selectedUser, setSelectedUser] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const url = searchTerm ? `/api/users?search=${encodeURIComponent(searchTerm)}` : "/api/users"
-        const res = await axios.get(url)
-        if (res.data.success && Array.isArray(res.data.data)) {
-          setUsers(res.data.data)
-        }
-      } catch (error) {
-        // Trate o erro conforme necessário
-        setUsers([])
-      }
-    }
-    fetchUsers()
-  }, [searchTerm])
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.user.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const handleCreate = (userData) => {
     // Aqui você pode implementar a chamada para criar usuário via API
@@ -70,7 +65,7 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen h-full flex flex-col flex-1">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-[#2b2c34]">Usuários</h1>
@@ -85,7 +80,7 @@ export default function UsersPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-[#2b2c34]">Lista de Usuários</CardTitle>
-          <CardDescription className="text-[#2b2c34]">{users.length} usuário(s) encontrado(s)</CardDescription>
+          <CardDescription className="text-[#2b2c34]">{filteredUsers.length} usuário(s) encontrado(s)</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-2 mb-4">
@@ -111,7 +106,7 @@ export default function UsersPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <TableRow key={user.id || user._id}>
                     <TableCell className="font-medium text-[#2b2c34]">{user.name}</TableCell>
                     <TableCell className="text-[#2b2c34]">{user.email}</TableCell>
