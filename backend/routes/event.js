@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const events = await listAllEventsService()
-    res.json({ success: true, data: events })
+    res.status(200).json({ success: true, data: events })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar eventos' })
   }
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     if (!event) {
       return res.status(404).json({ success: false, error: 'Evento não encontrado' })
     }
-    res.json({ success: true, data: event })
+    res.status(200).json({ success: true, data: event })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar evento' })
   }
@@ -45,7 +45,7 @@ router.put('/:id', async (req, res) => {
     if (!event) {
       return res.status(404).json({ success: false, error: 'Evento não encontrado' })
     }
-    res.json({ success: true, data: event, message: 'Evento atualizado com sucesso' })
+    res.status(200).json({ success: true, data: event, message: 'Evento atualizado com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao atualizar evento' })
   }
@@ -57,7 +57,7 @@ router.delete('/:id', async (req, res) => {
     if (!success) {
       return res.status(404).json({ success: false, error: 'Evento não encontrado' })
     }
-    res.json({ success: true, message: 'Evento removido com sucesso' })
+    res.status(200).json({ success: true, message: 'Evento removido com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao remover evento' })
   }

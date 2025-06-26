@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const professionals = await listAllProfessionalsService()
-    res.json({ success: true, data: professionals })
+    res.status(200).json({ success: true, data: professionals })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar profissionais' })
   }
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     if (!professional) {
       return res.status(404).json({ success: false, error: 'Profissional não encontrado' })
     }
-    res.json({ success: true, data: professional })
+    res.status(200).json({ success: true, data: professional })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar profissional' })
   }
@@ -45,7 +45,7 @@ router.put('/:id', async (req, res) => {
     if (!professional) {
       return res.status(404).json({ success: false, error: 'Profissional não encontrado' })
     }
-    res.json({ success: true, data: professional, message: 'Profissional atualizado com sucesso' })
+    res.status(200).json({ success: true, data: professional, message: 'Profissional atualizado com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao atualizar profissional' })
   }
@@ -57,7 +57,7 @@ router.delete('/:id', async (req, res) => {
     if (!success) {
       return res.status(404).json({ success: false, error: 'Profissional não encontrado' })
     }
-    res.json({ success: true, message: 'Profissional removido com sucesso' })
+    res.status(200).json({ success: true, message: 'Profissional removido com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao remover profissional' })
   }

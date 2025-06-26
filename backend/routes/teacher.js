@@ -11,7 +11,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const teachers = await listAllTeachersService()
-    res.json({ success: true, data: teachers })
+    res.status(200).json({ success: true, data: teachers })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar professores' })
   }
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ success: false, error: 'Professor não encontrado' })
     }
-    res.json({ success: true, data: teacher })
+    res.status(200).json({ success: true, data: teacher })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar professor' })
   }
@@ -44,7 +44,7 @@ router.put('/:id', async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ success: false, error: 'Professor não encontrado' })
     }
-    res.json({ success: true, data: teacher, message: 'Professor atualizado com sucesso' })
+    res.status(200).json({ success: true, data: teacher, message: 'Professor atualizado com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao atualizar professor' })
   }
@@ -56,8 +56,9 @@ router.delete('/:id', async (req, res) => {
     if (!success) {
       return res.status(404).json({ success: false, error: 'Professor não encontrado' })
     }
-    res.json({ success: true, message: 'Professor removido com sucesso' })
+    res.status(200).json({ success: true, message: 'Professor removido com sucesso' })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, error: 'Erro ao remover professor' })
   }
 })

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
 const MONGODB_URI = process.env.MONGODB_URI
+const DB_NAME = process.env.DB_NAME
 
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable inside .env.local")
@@ -19,6 +20,7 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      dbName: DB_NAME
     }
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {

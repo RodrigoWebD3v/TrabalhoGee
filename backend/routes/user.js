@@ -13,7 +13,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const users = await listAllUsersService()
-    res.json({ success: true, data: users })
+    res.status(200).json({ success: true, data: users })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar usuários' })
   }
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, error: 'Usuário não encontrado' })
     }
-    res.json({ success: true, data: user })
+    res.status(200).json({ success: true, data: user })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar usuário' })
   }
@@ -47,7 +47,7 @@ router.put('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, error: 'Usuário não encontrado' })
     }
-    res.json({ success: true, data: user, message: 'Usuário atualizado com sucesso' })
+    res.status(200).json({ success: true, data: user, message: 'Usuário atualizado com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao atualizar usuário' })
   }
@@ -59,7 +59,7 @@ router.delete('/:id', async (req, res) => {
     if (!success) {
       return res.status(404).json({ success: false, error: 'Usuário não encontrado' })
     }
-    res.json({ success: true, message: 'Usuário removido com sucesso' })
+    res.status(200).json({ success: true, message: 'Usuário removido com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao remover usuário' })
   }
