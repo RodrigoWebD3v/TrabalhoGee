@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,18 +10,28 @@ import { Plus, Search, Eye, Edit, Trash2 } from "lucide-react"
 import { TeacherModal } from "@/components/modals/teacher-modal"
 import { TeacherDetailsModal } from "@/components/modals/teacher-details-modal"
 import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
+import { createTeacher, deleteTeacher, fetchTeachers, updateTeacher } from "@/api/teachersApi"
 
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [teachers, setTeachers] = useState([
-    { id: 1, name: "Ana Paula", school_disciplines: "Matemática", contact: "ana@email.com", phone_number: "11999999999", status: "on" },
-    { id: 2, name: "Bruno Costa", school_disciplines: "Português", contact: "bruno@email.com", phone_number: "11888888888", status: "off" },
-  ])
+  const [teachers, setTeachers] = useState([])
   const [selectedTeacher, setSelectedTeacher] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  async function getTeachers() {
+    const {data, status} = await fetchTeachers()
+    if(status != 200){
+      return
+    }
+    setTeachers(data.teachers)
+  }
+
+  useEffect(() => {
+    getTeachers()
+  }, [])
 
   const filteredTeachers = teachers.filter(
     (teacher) =>
@@ -30,27 +40,35 @@ export default function TeachersPage() {
       teacher.contact.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const handleCreate = (teacherData) => {
-    const newTeacher = {
-      ...teacherData,
-      id: (teachers.length + 1).toString(),
+  const handleCreate = async (teacherData) => {
+    const {data,status} = await createTeacher(teacherData)
+    console.log("RETORNO: ",data, status)
+    if(status != 201){
+      return
     }
-    setTeachers([...teachers, newTeacher])
+    getTeachers()
     setIsCreateModalOpen(false)
   }
 
-  const handleEdit = (teacherData) => {
-    setTeachers(
-      teachers.map((teacher) =>
-        teacher.id === selectedTeacher.id ? { ...teacherData, id: selectedTeacher.id } : teacher,
-      ),
-    )
+  const handleEdit = async (teacherData) => {
+    const id = selectedTeacher?._id || selectedTeacher?.id;
+    if (!id) return;
+    const {data, status} = await updateTeacher(id, teacherData)
+    if(status != 200){
+      return
+    }
+    getTeachers()
     setIsEditModalOpen(false)
     setSelectedTeacher(null)
   }
 
-  const handleDelete = () => {
-    setTeachers(teachers.filter((teacher) => teacher.id !== selectedTeacher.id))
+  const handleDelete = async (id) => {
+    if (!id) return;
+    const {status} = await deleteTeacher(id)
+    if(status != 200){
+      return
+    }
+    getTeachers()
     setIsDeleteModalOpen(false)
     setSelectedTeacher(null)
   }
@@ -189,6 +207,7 @@ export default function TeachersPage() {
         onConfirm={handleDelete}
         title="Excluir Professor"
         description={`Tem certeza que deseja excluir o professor "${selectedTeacher?.name}"? Esta ação não pode ser desfeita.`}
+        id={selectedTeacher?._id}
       />
     </div>
   )

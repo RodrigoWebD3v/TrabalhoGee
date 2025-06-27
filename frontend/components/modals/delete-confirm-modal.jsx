@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { AlertTriangle, Trash2, X } from "lucide-react"
 
-export function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, description }) {
+export function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, description, id }) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[400px]">
@@ -28,7 +28,7 @@ export function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, descript
             <X className="mr-2 h-4 w-4" />
             Cancelar
           </Button>
-          <Button type="button" variant="destructive" onClick={onConfirm}>
+          <Button type="button" variant="destructive" onClick={() => onConfirm(id)}>
             <Trash2 className="mr-2 h-4 w-4" />
             Excluir
           </Button>

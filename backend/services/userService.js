@@ -7,7 +7,6 @@ import {
 } from "../repository/userRepository.js"
  
 export async function listAllUsersService() {
-  console.log("Chegou aqui listAllUsersService")
   return listAllUsersRepository()
 }
 
@@ -16,7 +15,6 @@ export async function getUserDetailsService(id) {
 }
 
 export async function registerUserService(userData) {
-  console.log("Chegou aqui registerUserService")
   return registerUserRepository(userData)
 }
 

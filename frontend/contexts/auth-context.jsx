@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect } from "react"
+import { loginUser } from "@/api/authApi"
 
 const AuthContext = createContext(undefined)
 
@@ -18,15 +19,11 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const res = await fetch("http://localhost:3001/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-      const data = await res.json();
-      if (data.success && data.user) {
-        setUser(data.user);
-        localStorage.setItem("gee-user", JSON.stringify(data.user));
+      const data = await loginUser({ user: username, pwd: password });
+      if (data.success && data.user && data.token) {
+        const userWithToken = { ...data.user, token: data.token };
+        setUser(userWithToken);
+        localStorage.setItem("gee-user", JSON.stringify(userWithToken));
         return true;
       }
     } catch (e) {}

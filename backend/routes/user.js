@@ -13,7 +13,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const users = await listAllUsersService()
-    res.status(200).json({ success: true, data: users })
+    res.status(200).json({ success: true, users: users })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar usuários' })
   }
@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
   try {
     console.log("Chamou criar usuario")
     const user = await registerUserService(req.body)
+    console.log("RETORNOU 200")
     res.status(201).json({ success: true, data: user, message: 'Usuário criado com sucesso' })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao criar usuário' })

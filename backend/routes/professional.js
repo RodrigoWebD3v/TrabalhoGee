@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const professionals = await listAllProfessionalsService()
-    res.status(200).json({ success: true, data: professionals })
+    res.status(200).json({ success: true, professionals: professionals })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar profissionais' })
   }

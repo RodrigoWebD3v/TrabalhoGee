@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,19 +10,25 @@ import { Plus, Search, Eye, Edit, Trash2 } from "lucide-react"
 import { EventModal } from "@/components/modals/event-modal"
 import { EventDetailsModal } from "@/components/modals/event-details-modal"
 import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
+import { fetchEvents } from "@/api/eventsApi"
 
 export default function EventsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [events, setEvents] = useState([
-    { id: 1, description: "Reunião pedagógica", comments: "Sala 1", date: new Date().toISOString(), status: "ativo" },
-    { id: 2, description: "Palestra inclusão", comments: "Auditório", date: new Date(Date.now() + 86400000).toISOString(), status: "ativo" },
-    { id: 3, description: "Atividade lúdica", comments: "Pátio", date: new Date(Date.now() + 2*86400000).toISOString(), status: "inativo" },
-  ])
+  const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  async function getEvents() {
+    const {data, status} = await fetchEvents()
+    setEvents(data.events)
+  }
+
+  useEffect(() => {
+    getEvents()
+  }, [])
 
   const filteredEvents = events.filter(
     (event) =>

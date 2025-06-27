@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Save, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
-export function AppointmentModal({ isOpen, onClose, onSubmit, title, mode, initialData }) {
+export function AppointmentModal({ isOpen, onClose, onSubmit, title, mode, initialData, students = [], professionals = [] }) {
   const { toast } = useToast()
   const [formData, setFormData] = useState({
     specialty: "",
@@ -108,11 +108,11 @@ export function AppointmentModal({ isOpen, onClose, onSubmit, title, mode, initi
                   <SelectValue placeholder="Selecione o aluno" />
                 </SelectTrigger>
                 <SelectContent>
-                  {/* {mockData.students.map((student) => (
-                    <SelectItem key={student.id} value={student.name}>
+                  {students.map((student) => (
+                    <SelectItem key={student._id || student.id} value={student.name}>
                       {student.name}
                     </SelectItem>
-                  ))} */}
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -125,11 +125,11 @@ export function AppointmentModal({ isOpen, onClose, onSubmit, title, mode, initi
                   <SelectValue placeholder="Selecione o profissional" />
                 </SelectTrigger>
                 <SelectContent>
-                  {/* {mockData.professionals.map((professional) => (
-                    <SelectItem key={professional.id} value={professional.name}>
+                  {professionals.map((professional) => (
+                    <SelectItem key={professional._id || professional.id} value={professional.name}>
                       {professional.name} - {professional.specialty}
                     </SelectItem>
-                  ))} */}
+                  ))}
                 </SelectContent>
               </Select>
             </div>

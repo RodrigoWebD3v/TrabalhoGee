@@ -161,11 +161,29 @@ const SidebarTrigger = React.forwardRef(
 SidebarTrigger.displayName = "SidebarTrigger"
 
 function Sidebar({ children, className, ...props }) {
+  const { open, isMobile, openMobile } = useSidebar();
+  if (isMobile) {
+    return (
+      <Sheet open={openMobile} onOpenChange={() => {}}>
+        <SheetContent side="left" className="p-0 w-[260px] max-w-full">
+          {children}
+        </SheetContent>
+      </Sheet>
+    );
+  }
   return (
-    <aside className={cn("bg-white flex flex-col", className)} {...props}>
+    <aside
+      className={cn(
+        "bg-white flex flex-col transition-all duration-300 ease-in-out overflow-hidden",
+        open ? "w-64 opacity-100" : "w-0 opacity-0",
+        className
+      )}
+      style={{ minWidth: open ? '16rem' : 0, maxWidth: open ? '16rem' : 0 }}
+      {...props}
+    >
       {children}
     </aside>
-  )
+  );
 }
 
 function SidebarContent({ children, className, ...props }) {

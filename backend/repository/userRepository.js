@@ -36,7 +36,6 @@ export async function findUserByUsernameRepository(username) {
 }
 
 export async function comparePassword(plainPassword, hashedPassword) {
-  console.log(plainPassword, hashedPassword)
   return bcrypt.compare(plainPassword, hashedPassword)
 }
 

@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const events = await listAllEventsService()
-    res.status(200).json({ success: true, data: events })
+    res.status(200).json({ success: true, events: events })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar eventos' })
   }

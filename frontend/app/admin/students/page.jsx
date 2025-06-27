@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,18 +10,26 @@ import { Plus, Search, Eye, Edit, Trash2 } from "lucide-react"
 import { StudentModal } from "@/components/modals/student-modal"
 import { StudentDetailsModal } from "@/components/modals/student-details-modal"
 import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
+import { fetchStudents, createStudent, updateStudent, deleteStudent } from "@/api/studentsApi"
+import { get } from "http"
 
 export default function StudentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [students, setStudents] = useState([
-    { id: 1, name: "Lucas Alves", parents: "José e Ana", special_needs: "TEA", phone_number: "11999999999", age: 10, status: "on" },
-    { id: 2, name: "Fernanda Dias", parents: "Carlos e Paula", special_needs: "TDAH", phone_number: "11888888888", age: 12, status: "off" },
-  ])
+  const [students, setStudents] = useState([])
   const [selectedStudent, setSelectedStudent] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  async function getStudents() {
+    const {data, status} = await fetchStudents()
+    setStudents(data.students)
+  }
+
+  useEffect(() => {
+    getStudents()
+  }, [])
 
   const filteredStudents = students.filter(
     (student) =>
@@ -30,27 +38,35 @@ export default function StudentsPage() {
       student.special_needs.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const handleCreate = (studentData) => {
-    const newStudent = {
-      ...studentData,
-      id: (students.length + 1).toString(),
+  const handleCreate = async (studentData) => {
+    const {data, status} = await createStudent(studentData)
+    if (status != 201) {
+      return
     }
-    setStudents([...students, newStudent])
+    getStudents()
     setIsCreateModalOpen(false)
   }
 
-  const handleEdit = (studentData) => {
-    setStudents(
-      students.map((student) =>
-        student.id === selectedStudent.id ? { ...studentData, id: selectedStudent.id } : student,
-      ),
-    )
+  const handleEdit = async (studentData) => {
+    const id = selectedStudent?._id || selectedStudent?.id;
+    if (!id) return;
+    const {data, status} = await updateStudent(id, studentData)
+    if (status != 200) {
+      return
+    }
+    getStudents()
     setIsEditModalOpen(false)
     setSelectedStudent(null)
   }
 
-  const handleDelete = () => {
-    setStudents(students.filter((student) => student.id !== selectedStudent.id))
+  const handleDelete = async (id) => {
+    if (!id) return;
+    const { status } = await deleteStudent(id)
+    console.log(status)
+    if (status != 200) {
+      return
+    }
+    getStudents()
     setIsDeleteModalOpen(false)
     setSelectedStudent(null)
   }
@@ -191,6 +207,7 @@ export default function StudentsPage() {
         onConfirm={handleDelete}
         title="Excluir Aluno"
         description={`Tem certeza que deseja excluir o aluno "${selectedStudent?.name}"? Esta ação não pode ser desfeita.`}
+        id={selectedStudent?._id || selectedStudent?.id}
       />
     </div>
   )

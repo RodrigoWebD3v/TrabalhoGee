@@ -4,11 +4,9 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'segredo_super_secreto';
 
 export async function authenticateUserCredentialsService(body) {
-  console.log("Chegoua aqui")
   const {user, pwd} = body 
   const userRetorno = await findUserByUsernameRepository(user)
   if (!userRetorno) return null
-  console.log(userRetorno)
   const isMatch = await comparePassword(pwd, userRetorno.pwd)
   if (!isMatch) return null
   // Remove a senha do objeto retornado

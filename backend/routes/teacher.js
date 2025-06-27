@@ -11,7 +11,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const teachers = await listAllTeachersService()
-    res.status(200).json({ success: true, data: teachers })
+    res.status(200).json({ success: true, teachers: teachers })
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao buscar professores' })
   }

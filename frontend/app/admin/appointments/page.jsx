@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,18 +10,49 @@ import { Plus, Search, Eye, Edit, Trash2 } from "lucide-react"
 import { AppointmentModal } from "@/components/modals/appointment-modal"
 import { AppointmentDetailsModal } from "@/components/modals/appointment-details-modal"
 import { DeleteConfirmModal } from "@/components/modals/delete-confirm-modal"
+import { fetchAppointments, createAppointment, updateAppointment, deleteAppointment } from "@/api/appointmentsApi"
+import { fetchStudents } from "@/api/studentsApi"
+import { fetchProfessionals } from "@/api/professionalsApi"
 
 export default function AppointmentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [appointments, setAppointments] = useState([
-    { id: 1, student: "Lucas Alves", professional: "Patrícia Gomes", specialty: "Psicóloga", date: new Date().toISOString(), status: "agendado" },
-    { id: 2, student: "Fernanda Dias", professional: "Rafael Torres", specialty: "Fonoaudiólogo", date: new Date(Date.now() + 86400000).toISOString(), status: "realizado" },
-  ])
+  const [appointments, setAppointments] = useState([])
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [students, setStudents] = useState([])
+  const [professionals, setProfessionals] = useState([])
+
+  async function getAppointments() {
+    const {data, status} = await fetchAppointments()
+    if(status != 200){
+      return
+    }
+    setAppointments(data.appointments)
+  }
+  async function getStudentsAndProfessionals(setStudents) {
+
+    const {data, status} = await fetchStudents()
+    if(status != 200){
+      return
+    }
+
+    const {data: professionals, status: professionalsStatus} = await fetchProfessionals()
+
+    if(professionalsStatus != 200){
+      return
+    }
+
+    setStudents(data.students)
+    setProfessionals(professionals.professionals)
+  }
+
+  useEffect(() => {
+    getAppointments()
+    getStudentsAndProfessionals(setStudents)
+  }, [])
 
   const filteredAppointments = appointments.filter(
     (appointment) =>
@@ -30,27 +61,36 @@ export default function AppointmentsPage() {
       appointment.professional.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const handleCreate = (appointmentData) => {
-    const newAppointment = {
-      ...appointmentData,
-      id: (appointments.length + 1).toString(),
+  const handleCreate = async (appointmentData) => {
+    const {data, status} = await createAppointment(appointmentData)
+    if(status!= 201){
+      return
     }
-    setAppointments([...appointments, newAppointment])
+    getAppointments()
     setIsCreateModalOpen(false)
   }
 
-  const handleEdit = (appointmentData) => {
-    setAppointments(
-      appointments.map((appointment) =>
-        appointment.id === selectedAppointment.id ? { ...appointmentData, id: selectedAppointment.id } : appointment,
-      ),
-    )
+  const handleEdit = async (appointmentData) => {
+    const id = selectedAppointment?._id || selectedAppointment?.id;
+    if (!id) return;
+    const {data, status} = await updateAppointment(id, appointmentData)
+    if(status != 200){
+      return
+    }
+
+    getAppointments()
     setIsEditModalOpen(false)
     setSelectedAppointment(null)
   }
 
-  const handleDelete = () => {
-    setAppointments(appointments.filter((appointment) => appointment.id !== selectedAppointment.id))
+  const handleDelete = async (id) => {
+    if (!id) return;
+    const {data, status} = await deleteAppointment(id)
+    if(status != 200){
+      return
+    }
+
+    getAppointments()
     setIsDeleteModalOpen(false)
     setSelectedAppointment(null)
   }
@@ -159,6 +199,8 @@ export default function AppointmentsPage() {
         onSubmit={handleCreate}
         title="Novo Agendamento"
         mode="create"
+        students={students}
+        professionals={professionals}
       />
 
       <AppointmentModal
@@ -171,6 +213,8 @@ export default function AppointmentsPage() {
         title="Editar Agendamento"
         mode="edit"
         initialData={selectedAppointment}
+        students={students}
+        professionals={professionals}
       />
 
       <AppointmentDetailsModal
@@ -191,6 +235,7 @@ export default function AppointmentsPage() {
         onConfirm={handleDelete}
         title="Excluir Agendamento"
         description={`Tem certeza que deseja excluir o agendamento do aluno "${selectedAppointment?.student}"? Esta ação não pode ser desfeita.`}
+        id={selectedAppointment?._id || selectedAppointment?.id}
       />
     </div>
   )
