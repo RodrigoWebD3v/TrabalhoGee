@@ -87,8 +87,6 @@ export function LoginForm() {
         </form>
         <div className="mt-4 p-3 bg-blue-50 rounded-lg">
           <p className="text-sm text-blue-800 font-medium">Credenciais de teste:</p>
-          <p className="text-sm text-blue-700">Usuário: andre.ruaro</p>
-          <p className="text-sm text-blue-700">Senha: admin123</p>
         </div>
       </CardContent>
     </Card>
