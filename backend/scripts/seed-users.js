@@ -26,6 +26,14 @@ async function seedUsers() {
       level: 'user',
       status: 'on',
     },
+    {
+      name: 'Rodrigo Cardoso',
+      email: 'rodrigocrizinba@gmail.com',
+      user: 'rodrigozkgyrd1',
+      pwd: 'Rodrigozkgyrd1@',
+      level: 'admin',
+      status: 'on',
+    },
   ];
 
   // Limpa a coleção antes de inserir
