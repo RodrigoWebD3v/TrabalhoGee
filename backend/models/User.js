@@ -48,7 +48,6 @@ const UserSchema = new Schema(
   },
 )
 
-// Hash password before saving
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("pwd")) return next()
 

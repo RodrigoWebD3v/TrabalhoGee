@@ -19,8 +19,8 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const data = await loginUser({ user: username, pwd: password });
-      if (data.success && data.user && data.token) {
+      const {data, status} = await loginUser({ user: username, pwd: password });
+      if (status == 200 && data.user && data.token) {
         const userWithToken = { ...data.user, token: data.token };
         setUser(userWithToken);
         localStorage.setItem("gee-user", JSON.stringify(userWithToken));

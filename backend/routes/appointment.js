@@ -3,7 +3,8 @@ import {
   listAllAppointmentsService,
   getAppointmentsService,
   updateAppointmentService,
-  deleteAppointmentService
+  deleteAppointmentService,
+  createAppointmentService
 } from '../services/appointmentService.js'
 
 const router = Router()
@@ -35,6 +36,7 @@ router.post('/', async (req, res) => {
     const appointment = await createAppointmentService(req.body)
     res.status(200).status(201).json({ success: true, data: appointment, message: 'Agendamento criado com sucesso' })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, error: 'Erro ao criar agendamento' })
   }
 })
